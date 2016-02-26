@@ -14,12 +14,15 @@ import org.apache.logging.log4j.Logger;
 import org.openrdf.model.Statement;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
+import org.openrdf.sail.SailException;
 
 import java.util.Properties;
 
 public class BlazegraphTripleModel implements TripleDatabaseModel {
     private static final Logger logger = LogManager.getLogger();
 
+    private BigdataSail sail;
+    private BigdataSailRepository repo;
     private BigdataSailRepositoryConnection repositoryConnection;
     private BigdataValueFactory valueFactory;
 
@@ -39,7 +42,7 @@ public class BlazegraphTripleModel implements TripleDatabaseModel {
         try {
             repositoryConnection.add(stmt);
         } catch (RepositoryException e) {
-            e.printStackTrace();
+            logger.fatal("Fail!", e);
             return false;
         }
         return true;
@@ -65,7 +68,7 @@ public class BlazegraphTripleModel implements TripleDatabaseModel {
                 true
             );
         } catch (RepositoryException e) {
-            e.printStackTrace();
+            logger.fatal("Fail!", e);
             return false;
         }
     }
@@ -93,7 +96,7 @@ public class BlazegraphTripleModel implements TripleDatabaseModel {
                 results.next();
             }
         } catch (RepositoryException e) {
-            e.printStackTrace();
+            logger.fatal("Fail!", e);
             return false;
         }
         return true;
@@ -127,13 +130,13 @@ public class BlazegraphTripleModel implements TripleDatabaseModel {
             //props.put(BigdataSail.Options.COMMIT, DataLoader.CommitEnum.Incremental);
 
             // instantiate a sail
-            final BigdataSail sail = new BigdataSail(props);
-            final BigdataSailRepository repo = new BigdataSailRepository(sail);
+            sail = new BigdataSail(props);
+            repo = new BigdataSailRepository(sail);
             repo.initialize();
             repositoryConnection = repo.getConnection();
             valueFactory = repositoryConnection.getValueFactory();
         } catch (RepositoryException e) {
-            e.printStackTrace();
+            logger.fatal("Fail!", e);
             return false;
         }
         return true;
@@ -142,8 +145,13 @@ public class BlazegraphTripleModel implements TripleDatabaseModel {
     private boolean closeRegular(){
         try {
             repositoryConnection.commit();
+            repositoryConnection.close();
+            sail.shutDown();
         } catch (RepositoryException e) {
-            e.printStackTrace();
+            logger.fatal("Fail!", e);
+            return false;
+        } catch (SailException e) {
+            logger.fatal("Fail!", e);
             return false;
         }
         return true;
