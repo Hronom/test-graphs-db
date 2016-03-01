@@ -7,14 +7,47 @@ import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.query.Dataset;
-import org.apache.jena.query.ReadWrite;
-import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.tdb.TDBFactory;
+import org.apache.jena.tdb.TDBLoader;
+import org.apache.jena.tdb.base.file.Location;
+import org.apache.jena.tdb.setup.StoreParams;
+import org.apache.jena.tdb.store.DatasetGraphTDB;
+import org.apache.jena.tdb.sys.TDBMaker;
 import org.apache.jena.util.iterator.ExtendedIterator;
 
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+
 public class ApacheJenaTripleModel implements TripleDatabaseModel {
+    private Location location;
+    private DatasetGraphTDB datasetGraphTDB;
     private Dataset dataset;
     private Graph graph;
+
+    @Override
+    public boolean openForBulkLoading() {
+        location = Location.create("Apache Jena Triples Bulk loaded");
+        datasetGraphTDB = TDBMaker.createDatasetGraphTDB(location, StoreParams.getDftStoreParams());
+        return true;
+    }
+
+    @Override
+    public boolean bulkLoad(Path sourcePath) {
+        try {
+            TDBLoader.load(datasetGraphTDB, sourcePath.toUri().toURL().toString(), true);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean closeAfterBulkLoading() {
+        datasetGraphTDB.close();
+        TDBMaker.releaseLocation(location);
+        return true;
+    }
 
     @Override
     public boolean openForInsert() {

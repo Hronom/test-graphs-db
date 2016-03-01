@@ -41,6 +41,21 @@ public class Neo4JTripleModel implements TripleDatabaseModel {
     }
 
     @Override
+    public boolean openForBulkLoading() {
+        return true;
+    }
+
+    @Override
+    public boolean bulkLoad(Path sourcePath) {
+        return true;
+    }
+
+    @Override
+    public boolean closeAfterBulkLoading() {
+        return true;
+    }
+
+    @Override
     public boolean openForInsert() {
         inserter = BatchInserters.inserter(path.toString());
         inserter.createDeferredSchemaIndex(tagLabel).on(tagNameProperty).create();

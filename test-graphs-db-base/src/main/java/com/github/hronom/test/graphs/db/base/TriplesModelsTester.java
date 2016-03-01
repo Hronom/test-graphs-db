@@ -3,6 +3,8 @@ package com.github.hronom.test.graphs.db.base;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.nio.file.Paths;
+
 public final class TriplesModelsTester {
     private static final Logger logger = LogManager.getLogger();
 
@@ -10,6 +12,15 @@ public final class TriplesModelsTester {
     }
 
     public static void test(TripleDatabaseModel tripleDatabaseModel) {
+        {
+            tripleDatabaseModel.openForBulkLoading();
+            long begin = System.currentTimeMillis();
+            tripleDatabaseModel.bulkLoad(Paths.get("one_million.nt"));
+            long end = System.currentTimeMillis();
+            logger.info("Bulk loading time: " + (end - begin) + " ms.");
+            tripleDatabaseModel.closeAfterBulkLoading();
+        }
+
         {
             tripleDatabaseModel.openForInsert();
             long begin = System.currentTimeMillis();

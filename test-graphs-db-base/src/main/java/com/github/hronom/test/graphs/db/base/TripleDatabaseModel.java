@@ -1,6 +1,12 @@
 package com.github.hronom.test.graphs.db.base;
 
+import java.nio.file.Path;
+
 public interface TripleDatabaseModel {
+    boolean openForBulkLoading();
+    boolean bulkLoad(Path sourcePath);
+    boolean closeAfterBulkLoading();
+
     boolean openForInsert();
     boolean insert(String tagNameA, String tagNameB);
     boolean closeAfterInsert();

@@ -10,6 +10,7 @@
     <module>test-graphs-db-base</module>
     <module>test-graphs-db-blazegraph</module>
     <module>test-graphs-db-apache-jena</module>
+    <module>test-graphs-db-utils</module>
   </modules>
   <packaging>pom</packaging>
 
