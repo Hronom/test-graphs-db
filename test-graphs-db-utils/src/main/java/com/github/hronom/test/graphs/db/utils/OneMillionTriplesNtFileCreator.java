@@ -10,7 +10,7 @@ public class OneMillionTriplesNtFileCreator {
     public static void main(String[] args) {
         OneMillionTripleTestModel oneMillionTripleModel = new OneMillionTripleTestModel();
         oneMillionTripleModel.openForSingleInserting();
-        TriplesModelsUtils.fill(oneMillionTripleModel);
+        TriplesModelsUtils.insertTags(oneMillionTripleModel);
         oneMillionTripleModel.closeAfterSingleInserting();
     }
 }

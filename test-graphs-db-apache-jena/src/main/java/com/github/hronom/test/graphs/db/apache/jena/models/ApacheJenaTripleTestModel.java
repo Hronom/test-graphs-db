@@ -15,11 +15,19 @@ import org.apache.jena.tdb.setup.StoreParams;
 import org.apache.jena.tdb.store.DatasetGraphTDB;
 import org.apache.jena.tdb.sys.TDBMaker;
 import org.apache.jena.util.iterator.ExtendedIterator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ApacheJenaTripleTestModel implements TripleDatabaseTestModel {
+    private static final Logger logger = LogManager.getLogger();
+    private final Path regularDbPath = Paths.get("Apache Jena Triples");
+
     private Location location;
     private DatasetGraphTDB datasetGraphTDB;
     private Dataset dataset;
@@ -33,7 +41,7 @@ public class ApacheJenaTripleTestModel implements TripleDatabaseTestModel {
     }
 
     @Override
-    public boolean bulkLoad(Path sourcePath) {
+    public boolean bulkInsert(Path sourcePath) {
         try {
             TDBLoader.load(datasetGraphTDB, sourcePath.toUri().toURL().toString(), true);
         } catch (MalformedURLException e) {
@@ -134,6 +142,16 @@ public class ApacheJenaTripleTestModel implements TripleDatabaseTestModel {
     @Override
     public boolean closeAfterSingleDeleting() {
         return closeRegular();
+    }
+
+    @Override
+    public long getDbSize() {
+        try {
+            return Files.size(regularDbPath);
+        } catch (IOException e) {
+            logger.fatal("Fail!", e);
+            return -1;
+        }
     }
 
     private boolean openRegular() {

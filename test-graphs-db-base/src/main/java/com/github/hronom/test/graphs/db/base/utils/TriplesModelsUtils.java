@@ -13,7 +13,7 @@ public final class TriplesModelsUtils {
     private TriplesModelsUtils() {
     }
 
-    public static boolean fill(TripleDatabaseTestModel tripleDatabaseTestModel) {
+    public static boolean insertTags(TripleDatabaseTestModel tripleDatabaseTestModel) {
         long beginTime = System.currentTimeMillis();
 
         for (long i = 2; i < totalCount; i++) {
@@ -37,7 +37,31 @@ public final class TriplesModelsUtils {
         return true;
     }
 
-    public static boolean contain(TripleDatabaseTestModel tripleDatabaseTestModel) {
+    public static boolean deleteTags(TripleDatabaseTestModel tripleDatabaseTestModel) {
+        long beginTime = System.currentTimeMillis();
+
+        for (long i = 2; i < totalCount; i++) {
+            if (!tripleDatabaseTestModel.singleDelete("Tag" + i, "Tag" + (i + 1))) {
+                return false;
+            }
+
+            if (!tripleDatabaseTestModel.singleDelete("Tag" + (i - 1), "Tag" + (i - 2))) {
+                return false;
+            }
+
+            long currentTime = System.currentTimeMillis();
+            if ((currentTime - beginTime) > 3000) {
+                beginTime = System.currentTimeMillis();
+                logger.info("Count of deleted tags: " + i);
+            }
+        }
+
+        logger.info("Count of deleted tags: " + totalCount);
+
+        return true;
+    }
+
+    public static boolean checkTagsRelation(TripleDatabaseTestModel tripleDatabaseTestModel) {
         long beginTime = System.currentTimeMillis();
 
         for (long i = 2; i < totalCount; i++) {

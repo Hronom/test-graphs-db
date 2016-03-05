@@ -4,7 +4,7 @@ import java.nio.file.Path;
 
 public interface TripleDatabaseTestModel {
     boolean openForBulkLoading();
-    boolean bulkLoad(Path sourcePath);
+    boolean bulkInsert(Path sourcePath);
     boolean closeAfterBulkLoading();
 
     boolean openForSingleInserting();
@@ -22,4 +22,6 @@ public interface TripleDatabaseTestModel {
     boolean openForSingleDeleting();
     boolean singleDelete(String tagNameA, String tagNameB);
     boolean closeAfterSingleDeleting();
+
+    long getDbSize();
 }

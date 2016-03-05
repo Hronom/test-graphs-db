@@ -44,7 +44,7 @@ public class Neo4JTripleTestModel implements TripleDatabaseTestModel {
     }
 
     @Override
-    public boolean bulkLoad(Path sourcePath) {
+    public boolean bulkInsert(Path sourcePath) {
         return true;
     }
 
@@ -187,6 +187,12 @@ public class Neo4JTripleTestModel implements TripleDatabaseTestModel {
     public boolean closeAfterSingleDeleting() {
         // TODO need to implement...
         return false;
+    }
+
+    @Override
+    public long getDbSize() {
+        // TODO need to implement...
+        return -1;
     }
 
     private void openRegular() {

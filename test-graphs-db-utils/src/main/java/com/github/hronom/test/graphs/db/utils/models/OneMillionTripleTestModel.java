@@ -26,7 +26,7 @@ public class OneMillionTripleTestModel implements TripleDatabaseTestModel {
     }
 
     @Override
-    public boolean bulkLoad(Path sourcePath) {
+    public boolean bulkInsert(Path sourcePath) {
         return true;
     }
 
@@ -114,5 +114,10 @@ public class OneMillionTripleTestModel implements TripleDatabaseTestModel {
     @Override
     public boolean closeAfterSingleDeleting() {
         return true;
+    }
+
+    @Override
+    public long getDbSize() {
+        return -1;
     }
 }

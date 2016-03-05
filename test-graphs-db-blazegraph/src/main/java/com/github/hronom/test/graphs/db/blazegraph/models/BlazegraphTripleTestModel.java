@@ -23,11 +23,15 @@ import org.openrdf.sail.SailException;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 public class BlazegraphTripleTestModel implements TripleDatabaseTestModel {
     private static final Logger logger = LogManager.getLogger();
+
+    private final Path regularDbPath = Paths.get("Blazegraph Triples.jnl");
 
     private BigdataSail sail;
     private BigdataSailRepository repo;
@@ -40,7 +44,7 @@ public class BlazegraphTripleTestModel implements TripleDatabaseTestModel {
     }
 
     @Override
-    public boolean bulkLoad(Path sourcePath) {
+    public boolean bulkInsert(Path sourcePath) {
         try {
             Properties props = new Properties();
             props.put(DataLoader.Options.CLOSURE, DataLoader.ClosureEnum.None.toString());
@@ -182,6 +186,16 @@ public class BlazegraphTripleTestModel implements TripleDatabaseTestModel {
         return closeRegular();
     }
 
+    @Override
+    public long getDbSize() {
+        try {
+            return Files.size(regularDbPath);
+        } catch (IOException e) {
+            logger.fatal("Fail!", e);
+            return -1;
+        }
+    }
+
     private boolean openBulkLoading(){
         try {
             // load journal properties from resources
@@ -234,7 +248,7 @@ public class BlazegraphTripleTestModel implements TripleDatabaseTestModel {
             props.put(BigdataSail.Options.TRUTH_MAINTENANCE, "false");
 
             // The name of the backing file.
-            props.put(BigdataSail.Options.FILE, "Blazegraph Triples.jnl");
+            props.put(BigdataSail.Options.FILE, regularDbPath.toString());
             props.put(BigdataSail.Options.BUFFER_MODE, BufferMode.DiskRW.toString());
 
             //props.put(BigdataSail.Options.COMMIT, DataLoader.CommitEnum.Incremental);

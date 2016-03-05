@@ -17,46 +17,64 @@ public final class TriplesModelsTester {
     public static void test(TripleDatabaseTestModel tripleDatabaseTestModel) {
         {
             tripleDatabaseTestModel.openForBulkLoading();
+            logger.info("Start bulk insertion...");
             long begin = System.currentTimeMillis();
-            tripleDatabaseTestModel.bulkLoad(Paths.get("one_million.nt"));
+            tripleDatabaseTestModel.bulkInsert(Paths.get("one_million.nt"));
             long end = System.currentTimeMillis();
-            logger.info("Bulk loading time: " + (end - begin) + " ms.");
+            logger.info("Bulk insertion time: " + (end - begin) + " ms.");
             tripleDatabaseTestModel.closeAfterBulkLoading();
         }
 
         {
             tripleDatabaseTestModel.openForSingleInserting();
+            logger.info("Start inserting tags by \"single insert\" method...");
             long begin = System.currentTimeMillis();
-            TriplesModelsUtils.fill(tripleDatabaseTestModel);
+            TriplesModelsUtils.insertTags(tripleDatabaseTestModel);
             long end = System.currentTimeMillis();
-            logger.info("Fill time: " + (end - begin) + " ms.");
+            logger.info("Tags insertion time: " + (end - begin) + " ms., DB size: " +
+                        tripleDatabaseTestModel.getDbSize() + " bytes.");
+            tripleDatabaseTestModel.closeAfterSingleInserting();
+        }
+
+        {
+            tripleDatabaseTestModel.openForSingleDeleting();
+            logger.info("Start deleting tags by \"single delete\" method...");
+            long begin = System.currentTimeMillis();
+            TriplesModelsUtils.deleteTags(tripleDatabaseTestModel);
+            long end = System.currentTimeMillis();
+            logger.info("Tags deletion time: " + (end - begin) + " ms., DB size: " +
+                        tripleDatabaseTestModel.getDbSize() + " bytes.");
+            tripleDatabaseTestModel.closeAfterSingleDeleting();
+        }
+
+        {
+            tripleDatabaseTestModel.openForSingleInserting();
+            logger.info("Start inserting tags by \"single insert\" method after deleting...");
+            long begin = System.currentTimeMillis();
+            TriplesModelsUtils.insertTags(tripleDatabaseTestModel);
+            long end = System.currentTimeMillis();
+            logger.info("Tags insertion after deleting time: " + (end - begin) + " ms., DB size: " +
+                        tripleDatabaseTestModel.getDbSize() + " bytes.");
             tripleDatabaseTestModel.closeAfterSingleInserting();
         }
 
         {
             tripleDatabaseTestModel.openForIsRelated();
+            logger.info("Start check of tags relations...");
             long begin = System.currentTimeMillis();
-            TriplesModelsUtils.contain(tripleDatabaseTestModel);
+            TriplesModelsUtils.checkTagsRelation(tripleDatabaseTestModel);
             long end = System.currentTimeMillis();
-            logger.info("Contain time: " + (end - begin) + " ms.");
+            logger.info("Tags relations check time: " + (end - begin) + " ms.");
             tripleDatabaseTestModel.closeAfterIsRelated();
         }
 
         {
             tripleDatabaseTestModel.openForReadingAllProperties();
+            logger.info("Start reading all nodes properties...");
             long begin = System.currentTimeMillis();
             TriplesModelsUtils.readAllProperties(tripleDatabaseTestModel);
             long end = System.currentTimeMillis();
-            logger.info("Read all properties time: " + (end - begin) + " ms.");
-            tripleDatabaseTestModel.closeAfterReadingAllProperties();
-        }
-
-        {
-            tripleDatabaseTestModel.openForReadingAllProperties();
-            long begin = System.currentTimeMillis();
-            TriplesModelsUtils.readAllProperties(tripleDatabaseTestModel);
-            long end = System.currentTimeMillis();
-            logger.info("Read all properties time: " + (end - begin) + " ms.");
+            logger.info("Parameters of nodes read time: " + (end - begin) + " ms.");
             tripleDatabaseTestModel.closeAfterReadingAllProperties();
         }
     }
