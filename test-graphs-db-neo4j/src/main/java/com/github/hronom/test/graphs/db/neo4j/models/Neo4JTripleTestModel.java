@@ -1,6 +1,6 @@
 package com.github.hronom.test.graphs.db.neo4j.models;
 
-import com.github.hronom.test.graphs.db.base.models.TripleDatabaseModel;
+import com.github.hronom.test.graphs.db.base.models.TripleDatabaseTestModel;
 
 import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class Neo4JTripleModel implements TripleDatabaseModel {
+public class Neo4JTripleTestModel implements TripleDatabaseTestModel {
     private Path path = Paths.get("Neo4j Triples");
 
     private final Label tagLabel = DynamicLabel.label("Tag");
@@ -54,14 +54,14 @@ public class Neo4JTripleModel implements TripleDatabaseModel {
     }
 
     @Override
-    public boolean openForInsert() {
+    public boolean openForSingleInserting() {
         inserter = BatchInserters.inserter(path.toString());
         inserter.createDeferredSchemaIndex(tagLabel).on(tagNameProperty).create();
         return true;
     }
 
     @Override
-    public boolean insert(String tagNameA, String tagNameB) {
+    public boolean singleInsert(String tagNameA, String tagNameB) {
         /*try (Transaction tx = neo4jDatabase.beginTx()) {
             Node tagNameANode = neo4jDatabase.findNode(tagLabel, tagNameProperty, tagNameA);
             if (tagNameANode == null) {
@@ -110,7 +110,7 @@ public class Neo4JTripleModel implements TripleDatabaseModel {
     }
 
     @Override
-    public boolean closeAfterInsert() {
+    public boolean closeAfterSingleInserting() {
         inserter.shutdown();
         return true;
     }
@@ -172,25 +172,19 @@ public class Neo4JTripleModel implements TripleDatabaseModel {
     }
 
     @Override
-    public boolean openForRenewing() {
+    public boolean openForSingleDeleting() {
         // TODO need to implement...
         return false;
     }
 
     @Override
-    public boolean deleting(String tagNameA, String tagNameB) {
+    public boolean singleDelete(String tagNameA, String tagNameB) {
         // TODO need to implement...
         return false;
     }
 
     @Override
-    public boolean inserting(String tagNameA, String tagNameB) {
-        // TODO need to implement...
-        return false;
-    }
-
-    @Override
-    public boolean closeAfterRenewing() {
+    public boolean closeAfterSingleDeleting() {
         // TODO need to implement...
         return false;
     }

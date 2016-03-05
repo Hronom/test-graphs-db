@@ -7,7 +7,7 @@ import com.bigdata.rdf.model.BigdataValueFactory;
 import com.bigdata.rdf.sail.BigdataSail;
 import com.bigdata.rdf.sail.BigdataSailRepository;
 import com.bigdata.rdf.sail.BigdataSailRepositoryConnection;
-import com.github.hronom.test.graphs.db.base.models.QuadDatabaseModel;
+import com.github.hronom.test.graphs.db.base.models.QuadDatabaseTestModel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +17,7 @@ import org.openrdf.repository.RepositoryResult;
 
 import java.util.Properties;
 
-public class BlazegraphQuadModel implements QuadDatabaseModel {
+public class BlazegraphQuadTestModel implements QuadDatabaseTestModel {
     private static final Logger logger = LogManager.getLogger();
 
     private BigdataSailRepositoryConnection repositoryConnection;

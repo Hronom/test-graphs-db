@@ -9,7 +9,7 @@ import com.bigdata.rdf.sail.BigdataSail;
 import com.bigdata.rdf.sail.BigdataSailRepository;
 import com.bigdata.rdf.sail.BigdataSailRepositoryConnection;
 import com.bigdata.rdf.store.DataLoader;
-import com.github.hronom.test.graphs.db.base.models.TripleDatabaseModel;
+import com.github.hronom.test.graphs.db.base.models.TripleDatabaseTestModel;
 import com.github.hronom.test.graphs.db.base.utils.RDFVocabulary;
 
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Properties;
 
-public class BlazegraphTripleModel implements TripleDatabaseModel {
+public class BlazegraphTripleTestModel implements TripleDatabaseTestModel {
     private static final Logger logger = LogManager.getLogger();
 
     private BigdataSail sail;
@@ -75,12 +75,12 @@ public class BlazegraphTripleModel implements TripleDatabaseModel {
     }
 
     @Override
-    public boolean openForInsert() {
+    public boolean openForSingleInserting() {
         return openRegular();
     }
 
     @Override
-    public boolean insert(String tagNameA, String tagNameB) {
+    public boolean singleInsert(String tagNameA, String tagNameB) {
         // prepare a statement
         final BigdataURI subject = valueFactory.createURI(RDFVocabulary.tagNs, tagNameA);
         final BigdataURI predicate = valueFactory.createURI(RDFVocabulary.relatedToNs);
@@ -97,7 +97,7 @@ public class BlazegraphTripleModel implements TripleDatabaseModel {
     }
 
     @Override
-    public boolean closeAfterInsert() {
+    public boolean closeAfterSingleInserting() {
         return closeRegular();
     }
 
@@ -156,12 +156,12 @@ public class BlazegraphTripleModel implements TripleDatabaseModel {
     }
 
     @Override
-    public boolean openForRenewing() {
+    public boolean openForSingleDeleting() {
         return openRegular();
     }
 
     @Override
-    public boolean deleting(String tagNameA, String tagNameB) {
+    public boolean singleDelete(String tagNameA, String tagNameB) {
         // prepare a statement
         final BigdataURI subject = valueFactory.createURI(RDFVocabulary.tagNs, tagNameA);
         final BigdataURI predicate = valueFactory.createURI(RDFVocabulary.relatedToNs);
@@ -178,24 +178,7 @@ public class BlazegraphTripleModel implements TripleDatabaseModel {
     }
 
     @Override
-    public boolean inserting(String tagNameA, String tagNameB) {
-        // prepare a statement
-        final BigdataURI subject = valueFactory.createURI(RDFVocabulary.tagNs, tagNameA);
-        final BigdataURI predicate = valueFactory.createURI(RDFVocabulary.relatedToNs);
-        final BigdataURI object = valueFactory.createURI(RDFVocabulary.tagNs, tagNameB);
-        final BigdataStatement stmt = valueFactory.createStatement(subject, predicate, object);
-
-        try {
-            repositoryConnection.add(stmt);
-        } catch (RepositoryException e) {
-            logger.fatal("Fail!", e);
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean closeAfterRenewing() {
+    public boolean closeAfterSingleDeleting() {
         return closeRegular();
     }
 

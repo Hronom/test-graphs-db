@@ -1,6 +1,6 @@
 package com.github.hronom.test.graphs.db.base.models;
 
-public interface QuadDatabaseModel {
+public interface QuadDatabaseTestModel {
     boolean initialize();
 
     boolean insert(String tagNameA, String tagNameB, String graph);

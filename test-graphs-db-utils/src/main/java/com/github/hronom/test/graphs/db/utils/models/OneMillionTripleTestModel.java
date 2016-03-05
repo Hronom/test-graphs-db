@@ -1,6 +1,6 @@
 package com.github.hronom.test.graphs.db.utils.models;
 
-import com.github.hronom.test.graphs.db.base.models.TripleDatabaseModel;
+import com.github.hronom.test.graphs.db.base.models.TripleDatabaseTestModel;
 import com.github.hronom.test.graphs.db.base.utils.RDFVocabulary;
 
 import org.apache.jena.graph.NodeFactory;
@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class OneMillionTripleModel implements TripleDatabaseModel {
+public class OneMillionTripleTestModel implements TripleDatabaseTestModel {
     private final Path oneMillionNt = Paths.get("one_million.nt");
 
     private BufferedWriter bufferedWriter;
@@ -36,7 +36,7 @@ public class OneMillionTripleModel implements TripleDatabaseModel {
     }
 
     @Override
-    public boolean openForInsert() {
+    public boolean openForSingleInserting() {
         try {
             bufferedWriter = Files.newBufferedWriter(oneMillionNt, StandardCharsets.UTF_8);
             writerStreamRDFFlat = new WriterStreamRDFFlat(bufferedWriter);
@@ -49,7 +49,7 @@ public class OneMillionTripleModel implements TripleDatabaseModel {
     }
 
     @Override
-    public boolean insert(String tagNameA, String tagNameB) {
+    public boolean singleInsert(String tagNameA, String tagNameB) {
         Triple triple = new Triple(
             NodeFactory.createURI(RDFVocabulary.tagNs + tagNameA),
             NodeFactory.createURI(RDFVocabulary.relatedToNs),
@@ -60,7 +60,7 @@ public class OneMillionTripleModel implements TripleDatabaseModel {
     }
 
     @Override
-    public boolean closeAfterInsert() {
+    public boolean closeAfterSingleInserting() {
         writerStreamRDFFlat.finish();
         try {
             bufferedWriter.flush();
@@ -102,22 +102,17 @@ public class OneMillionTripleModel implements TripleDatabaseModel {
     }
 
     @Override
-    public boolean openForRenewing() {
+    public boolean openForSingleDeleting() {
         return true;
     }
 
     @Override
-    public boolean deleting(String tagNameA, String tagNameB) {
+    public boolean singleDelete(String tagNameA, String tagNameB) {
         return true;
     }
 
     @Override
-    public boolean inserting(String tagNameA, String tagNameB) {
-        return true;
-    }
-
-    @Override
-    public boolean closeAfterRenewing() {
+    public boolean closeAfterSingleDeleting() {
         return true;
     }
 }

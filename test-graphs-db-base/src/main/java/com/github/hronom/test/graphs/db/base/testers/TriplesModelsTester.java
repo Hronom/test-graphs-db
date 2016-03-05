@@ -1,7 +1,7 @@
 package com.github.hronom.test.graphs.db.base.testers;
 
 import com.github.hronom.test.graphs.db.base.utils.TriplesModelsUtils;
-import com.github.hronom.test.graphs.db.base.models.TripleDatabaseModel;
+import com.github.hronom.test.graphs.db.base.models.TripleDatabaseTestModel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,50 +14,50 @@ public final class TriplesModelsTester {
     private TriplesModelsTester() {
     }
 
-    public static void test(TripleDatabaseModel tripleDatabaseModel) {
+    public static void test(TripleDatabaseTestModel tripleDatabaseTestModel) {
         {
-            tripleDatabaseModel.openForBulkLoading();
+            tripleDatabaseTestModel.openForBulkLoading();
             long begin = System.currentTimeMillis();
-            tripleDatabaseModel.bulkLoad(Paths.get("one_million.nt"));
+            tripleDatabaseTestModel.bulkLoad(Paths.get("one_million.nt"));
             long end = System.currentTimeMillis();
             logger.info("Bulk loading time: " + (end - begin) + " ms.");
-            tripleDatabaseModel.closeAfterBulkLoading();
+            tripleDatabaseTestModel.closeAfterBulkLoading();
         }
 
         {
-            tripleDatabaseModel.openForInsert();
+            tripleDatabaseTestModel.openForSingleInserting();
             long begin = System.currentTimeMillis();
-            TriplesModelsUtils.fill(tripleDatabaseModel);
+            TriplesModelsUtils.fill(tripleDatabaseTestModel);
             long end = System.currentTimeMillis();
             logger.info("Fill time: " + (end - begin) + " ms.");
-            tripleDatabaseModel.closeAfterInsert();
+            tripleDatabaseTestModel.closeAfterSingleInserting();
         }
 
         {
-            tripleDatabaseModel.openForIsRelated();
+            tripleDatabaseTestModel.openForIsRelated();
             long begin = System.currentTimeMillis();
-            TriplesModelsUtils.contain(tripleDatabaseModel);
+            TriplesModelsUtils.contain(tripleDatabaseTestModel);
             long end = System.currentTimeMillis();
             logger.info("Contain time: " + (end - begin) + " ms.");
-            tripleDatabaseModel.closeAfterIsRelated();
+            tripleDatabaseTestModel.closeAfterIsRelated();
         }
 
         {
-            tripleDatabaseModel.openForReadingAllProperties();
+            tripleDatabaseTestModel.openForReadingAllProperties();
             long begin = System.currentTimeMillis();
-            TriplesModelsUtils.readAllProperties(tripleDatabaseModel);
+            TriplesModelsUtils.readAllProperties(tripleDatabaseTestModel);
             long end = System.currentTimeMillis();
             logger.info("Read all properties time: " + (end - begin) + " ms.");
-            tripleDatabaseModel.closeAfterReadingAllProperties();
+            tripleDatabaseTestModel.closeAfterReadingAllProperties();
         }
 
         {
-            tripleDatabaseModel.openForReadingAllProperties();
+            tripleDatabaseTestModel.openForReadingAllProperties();
             long begin = System.currentTimeMillis();
-            TriplesModelsUtils.readAllProperties(tripleDatabaseModel);
+            TriplesModelsUtils.readAllProperties(tripleDatabaseTestModel);
             long end = System.currentTimeMillis();
             logger.info("Read all properties time: " + (end - begin) + " ms.");
-            tripleDatabaseModel.closeAfterReadingAllProperties();
+            tripleDatabaseTestModel.closeAfterReadingAllProperties();
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.github.hronom.test.graphs.db.apache.jena.models;
 
-import com.github.hronom.test.graphs.db.base.models.QuadDatabaseModel;
+import com.github.hronom.test.graphs.db.base.models.QuadDatabaseTestModel;
 
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.GraphUtil;
@@ -14,7 +14,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 
 import java.util.Iterator;
 
-public class ApacheJenaQuadModel implements QuadDatabaseModel {
+public class ApacheJenaQuadTestModel implements QuadDatabaseTestModel {
     private DatasetGraph datasetGraph;
 
     @Override

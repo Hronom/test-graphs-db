@@ -1,6 +1,6 @@
 package com.github.hronom.test.graphs.db.base.utils;
 
-import com.github.hronom.test.graphs.db.base.models.TripleDatabaseModel;
+import com.github.hronom.test.graphs.db.base.models.TripleDatabaseTestModel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,15 +13,15 @@ public final class TriplesModelsUtils {
     private TriplesModelsUtils() {
     }
 
-    public static boolean fill(TripleDatabaseModel tripleDatabaseModel) {
+    public static boolean fill(TripleDatabaseTestModel tripleDatabaseTestModel) {
         long beginTime = System.currentTimeMillis();
 
         for (long i = 2; i < totalCount; i++) {
-            if (!tripleDatabaseModel.insert("Tag" + i, "Tag" + (i + 1))) {
+            if (!tripleDatabaseTestModel.singleInsert("Tag" + i, "Tag" + (i + 1))) {
                 return false;
             }
 
-            if (!tripleDatabaseModel.insert("Tag" + (i - 1), "Tag" + (i - 2))) {
+            if (!tripleDatabaseTestModel.singleInsert("Tag" + (i - 1), "Tag" + (i - 2))) {
                 return false;
             }
 
@@ -37,15 +37,15 @@ public final class TriplesModelsUtils {
         return true;
     }
 
-    public static boolean contain(TripleDatabaseModel tripleDatabaseModel) {
+    public static boolean contain(TripleDatabaseTestModel tripleDatabaseTestModel) {
         long beginTime = System.currentTimeMillis();
 
         for (long i = 2; i < totalCount; i++) {
-            if (!tripleDatabaseModel.isRelated("Tag" + i, "Tag" + (i + 1))) {
+            if (!tripleDatabaseTestModel.isRelated("Tag" + i, "Tag" + (i + 1))) {
                 return false;
             }
 
-            if (!tripleDatabaseModel.isRelated("Tag" + (i - 1), "Tag" + (i - 2))) {
+            if (!tripleDatabaseTestModel.isRelated("Tag" + (i - 1), "Tag" + (i - 2))) {
                 return false;
             }
 
@@ -61,15 +61,15 @@ public final class TriplesModelsUtils {
         return true;
     }
 
-    public static boolean readAllProperties(TripleDatabaseModel tripleDatabaseModel) {
+    public static boolean readAllProperties(TripleDatabaseTestModel tripleDatabaseTestModel) {
         long beginTime = System.currentTimeMillis();
 
         for (long i = 2; i < totalCount; i++) {
-            if (!tripleDatabaseModel.readAllProperties("Tag" + i)) {
+            if (!tripleDatabaseTestModel.readAllProperties("Tag" + i)) {
                 return false;
             }
 
-            if (!tripleDatabaseModel.readAllProperties("Tag" + (i - 1))) {
+            if (!tripleDatabaseTestModel.readAllProperties("Tag" + (i - 1))) {
                 return false;
             }
 

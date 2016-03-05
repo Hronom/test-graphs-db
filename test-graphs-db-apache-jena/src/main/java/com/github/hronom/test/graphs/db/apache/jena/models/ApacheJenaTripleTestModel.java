@@ -1,6 +1,6 @@
 package com.github.hronom.test.graphs.db.apache.jena.models;
 
-import com.github.hronom.test.graphs.db.base.models.TripleDatabaseModel;
+import com.github.hronom.test.graphs.db.base.models.TripleDatabaseTestModel;
 import com.github.hronom.test.graphs.db.base.utils.RDFVocabulary;
 
 import org.apache.jena.graph.Graph;
@@ -19,7 +19,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 
-public class ApacheJenaTripleModel implements TripleDatabaseModel {
+public class ApacheJenaTripleTestModel implements TripleDatabaseTestModel {
     private Location location;
     private DatasetGraphTDB datasetGraphTDB;
     private Dataset dataset;
@@ -51,12 +51,12 @@ public class ApacheJenaTripleModel implements TripleDatabaseModel {
     }
 
     @Override
-    public boolean openForInsert() {
+    public boolean openForSingleInserting() {
         return openRegular();
     }
 
     @Override
-    public boolean insert(String tagNameA, String tagNameB) {
+    public boolean singleInsert(String tagNameA, String tagNameB) {
         Triple triple = new Triple(
             NodeFactory.createURI(RDFVocabulary.tagNs + tagNameA),
             NodeFactory.createURI(RDFVocabulary.relatedToNs),
@@ -67,7 +67,7 @@ public class ApacheJenaTripleModel implements TripleDatabaseModel {
     }
 
     @Override
-    public boolean closeAfterInsert() {
+    public boolean closeAfterSingleInserting() {
         return closeRegular();
     }
 
@@ -116,12 +116,12 @@ public class ApacheJenaTripleModel implements TripleDatabaseModel {
     }
 
     @Override
-    public boolean openForRenewing() {
+    public boolean openForSingleDeleting() {
         return openRegular();
     }
 
     @Override
-    public boolean deleting(String tagNameA, String tagNameB) {
+    public boolean singleDelete(String tagNameA, String tagNameB) {
         Triple triple = new Triple(
             NodeFactory.createURI(RDFVocabulary.tagNs + tagNameA),
             NodeFactory.createURI(RDFVocabulary.relatedToNs),
@@ -132,18 +132,7 @@ public class ApacheJenaTripleModel implements TripleDatabaseModel {
     }
 
     @Override
-    public boolean inserting(String tagNameA, String tagNameB) {
-        Triple triple = new Triple(
-            NodeFactory.createURI(RDFVocabulary.tagNs + tagNameA),
-            NodeFactory.createURI(RDFVocabulary.relatedToNs),
-            NodeFactory.createURI(RDFVocabulary.tagNs + tagNameB)
-        );
-        graph.add(triple);
-        return true;
-    }
-
-    @Override
-    public boolean closeAfterRenewing() {
+    public boolean closeAfterSingleDeleting() {
         return closeRegular();
     }
 
