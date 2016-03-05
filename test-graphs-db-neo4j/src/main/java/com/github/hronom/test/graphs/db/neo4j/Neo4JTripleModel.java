@@ -1,9 +1,8 @@
 package com.github.hronom.test.graphs.db.neo4j;
 
-import com.github.hronom.test.graphs.db.base.TripleDatabaseModel;
+import com.github.hronom.test.graphs.db.base.models.TripleDatabaseModel;
 
 import org.neo4j.graphdb.DynamicLabel;
-import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
@@ -16,7 +15,6 @@ import org.neo4j.graphdb.schema.Schema;
 import org.neo4j.unsafe.batchinsert.BatchInserter;
 import org.neo4j.unsafe.batchinsert.BatchInserters;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -171,6 +169,30 @@ public class Neo4JTripleModel implements TripleDatabaseModel {
     public boolean closeAfterReadingAllProperties() {
         neo4jDatabase.shutdown();
         return true;
+    }
+
+    @Override
+    public boolean openForRenewing() {
+        // TODO need to implement...
+        return false;
+    }
+
+    @Override
+    public boolean deleting(String tagNameA, String tagNameB) {
+        // TODO need to implement...
+        return false;
+    }
+
+    @Override
+    public boolean inserting(String tagNameA, String tagNameB) {
+        // TODO need to implement...
+        return false;
+    }
+
+    @Override
+    public boolean closeAfterRenewing() {
+        // TODO need to implement...
+        return false;
     }
 
     private void openRegular() {

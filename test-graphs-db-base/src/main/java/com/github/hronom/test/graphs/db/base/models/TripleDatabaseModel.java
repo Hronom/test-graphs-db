@@ -1,4 +1,4 @@
-package com.github.hronom.test.graphs.db.base;
+package com.github.hronom.test.graphs.db.base.models;
 
 import java.nio.file.Path;
 
@@ -18,4 +18,9 @@ public interface TripleDatabaseModel {
     boolean openForReadingAllProperties();
     boolean readAllProperties(String tagNameA);
     boolean closeAfterReadingAllProperties();
+
+    boolean openForRenewing();
+    boolean deleting(String tagNameA, String tagNameB);
+    boolean inserting(String tagNameA, String tagNameB);
+    boolean closeAfterRenewing();
 }

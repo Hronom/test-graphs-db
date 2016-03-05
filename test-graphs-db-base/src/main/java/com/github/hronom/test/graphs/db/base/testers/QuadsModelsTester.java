@@ -1,4 +1,7 @@
-package com.github.hronom.test.graphs.db.base;
+package com.github.hronom.test.graphs.db.base.testers;
+
+import com.github.hronom.test.graphs.db.base.utils.QuadsModelsUtils;
+import com.github.hronom.test.graphs.db.base.models.QuadDatabaseModel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

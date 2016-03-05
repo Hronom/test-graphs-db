@@ -1,4 +1,4 @@
-package com.github.hronom.test.graphs.db.base;
+package com.github.hronom.test.graphs.db.base.models;
 
 public interface QuadDatabaseModel {
     boolean initialize();

@@ -7,8 +7,7 @@ import com.bigdata.rdf.model.BigdataValueFactory;
 import com.bigdata.rdf.sail.BigdataSail;
 import com.bigdata.rdf.sail.BigdataSailRepository;
 import com.bigdata.rdf.sail.BigdataSailRepositoryConnection;
-import com.github.hronom.test.graphs.db.base.QuadDatabaseModel;
-import com.github.hronom.test.graphs.db.base.TripleDatabaseModel;
+import com.github.hronom.test.graphs.db.base.models.QuadDatabaseModel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

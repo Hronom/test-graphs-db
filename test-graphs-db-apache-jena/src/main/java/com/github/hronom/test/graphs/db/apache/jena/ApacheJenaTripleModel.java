@@ -1,6 +1,7 @@
 package com.github.hronom.test.graphs.db.apache.jena;
 
-import com.github.hronom.test.graphs.db.base.TripleDatabaseModel;
+import com.github.hronom.test.graphs.db.base.models.TripleDatabaseModel;
+import com.github.hronom.test.graphs.db.base.utils.RDFVocabulary;
 
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
@@ -57,9 +58,9 @@ public class ApacheJenaTripleModel implements TripleDatabaseModel {
     @Override
     public boolean insert(String tagNameA, String tagNameB) {
         Triple triple = new Triple(
-            NodeFactory.createURI("http://www.test.org/tag/" + tagNameA),
-            NodeFactory.createURI("http://www.test.org/relatedTo"),
-            NodeFactory.createURI("http://www.test.org/tag/" + tagNameB)
+            NodeFactory.createURI(RDFVocabulary.tagNs + tagNameA),
+            NodeFactory.createURI(RDFVocabulary.relatedToNs),
+            NodeFactory.createURI(RDFVocabulary.tagNs + tagNameB)
         );
         graph.add(triple);
         return true;
@@ -78,9 +79,9 @@ public class ApacheJenaTripleModel implements TripleDatabaseModel {
     @Override
     public boolean isRelated(String tagNameA, String tagNameB) {
         Triple triple = new Triple(
-            NodeFactory.createURI("http://www.test.org/tag/" + tagNameA),
-            NodeFactory.createURI("http://www.test.org/relatedTo"),
-            NodeFactory.createURI("http://www.test.org/tag/" + tagNameB)
+            NodeFactory.createURI(RDFVocabulary.tagNs + tagNameA),
+            NodeFactory.createURI(RDFVocabulary.relatedToNs),
+            NodeFactory.createURI(RDFVocabulary.tagNs + tagNameB)
         );
         return graph.contains(triple);
     }
@@ -99,7 +100,7 @@ public class ApacheJenaTripleModel implements TripleDatabaseModel {
     public boolean readAllProperties(String tagNameA) {
         ExtendedIterator<Triple> iter =
             graph.find(
-                NodeFactory.createURI("http://www.test.org/tag/" + tagNameA),
+                NodeFactory.createURI(RDFVocabulary.tagNs + tagNameA),
                 Node.ANY,
                 Node.ANY
             );
@@ -111,6 +112,38 @@ public class ApacheJenaTripleModel implements TripleDatabaseModel {
 
     @Override
     public boolean closeAfterReadingAllProperties() {
+        return closeRegular();
+    }
+
+    @Override
+    public boolean openForRenewing() {
+        return openRegular();
+    }
+
+    @Override
+    public boolean deleting(String tagNameA, String tagNameB) {
+        Triple triple = new Triple(
+            NodeFactory.createURI(RDFVocabulary.tagNs + tagNameA),
+            NodeFactory.createURI(RDFVocabulary.relatedToNs),
+            NodeFactory.createURI(RDFVocabulary.tagNs + tagNameB)
+        );
+        graph.delete(triple);
+        return true;
+    }
+
+    @Override
+    public boolean inserting(String tagNameA, String tagNameB) {
+        Triple triple = new Triple(
+            NodeFactory.createURI(RDFVocabulary.tagNs + tagNameA),
+            NodeFactory.createURI(RDFVocabulary.relatedToNs),
+            NodeFactory.createURI(RDFVocabulary.tagNs + tagNameB)
+        );
+        graph.add(triple);
+        return true;
+    }
+
+    @Override
+    public boolean closeAfterRenewing() {
         return closeRegular();
     }
 

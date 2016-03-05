@@ -1,4 +1,6 @@
-package com.github.hronom.test.graphs.db.base;
+package com.github.hronom.test.graphs.db.base.utils;
+
+import com.github.hronom.test.graphs.db.base.models.TripleDatabaseModel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

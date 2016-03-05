@@ -1,14 +1,12 @@
 package com.github.hronom.test.graphs.db.apache.jena;
 
-import com.github.hronom.test.graphs.db.base.QuadDatabaseModel;
-import com.github.hronom.test.graphs.db.base.TripleDatabaseModel;
+import com.github.hronom.test.graphs.db.base.models.QuadDatabaseModel;
 
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.GraphUtil;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.graph.Triple;
-import org.apache.jena.graph.TripleIterator;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.Quad;
 import org.apache.jena.tdb.TDBFactory;

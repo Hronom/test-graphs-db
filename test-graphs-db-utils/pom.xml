@@ -19,6 +19,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.hronom</groupId>
+            <artifactId>test-graphs-db-base</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         <!-- Apache Jena -->
         <dependency>
             <groupId>org.apache.jena</groupId>

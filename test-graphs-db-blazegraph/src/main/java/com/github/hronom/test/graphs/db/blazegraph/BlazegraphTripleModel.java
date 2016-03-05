@@ -9,7 +9,8 @@ import com.bigdata.rdf.sail.BigdataSail;
 import com.bigdata.rdf.sail.BigdataSailRepository;
 import com.bigdata.rdf.sail.BigdataSailRepositoryConnection;
 import com.bigdata.rdf.store.DataLoader;
-import com.github.hronom.test.graphs.db.base.TripleDatabaseModel;
+import com.github.hronom.test.graphs.db.base.models.TripleDatabaseModel;
+import com.github.hronom.test.graphs.db.base.utils.RDFVocabulary;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -81,9 +82,9 @@ public class BlazegraphTripleModel implements TripleDatabaseModel {
     @Override
     public boolean insert(String tagNameA, String tagNameB) {
         // prepare a statement
-        final BigdataURI subject = valueFactory.createURI("http://www.test.org/tag/", tagNameA);
-        final BigdataURI predicate = valueFactory.createURI("http://www.test.org/relatedTo");
-        final BigdataURI object = valueFactory.createURI("http://www.test.org/tag/", tagNameB);
+        final BigdataURI subject = valueFactory.createURI(RDFVocabulary.tagNs, tagNameA);
+        final BigdataURI predicate = valueFactory.createURI(RDFVocabulary.relatedToNs);
+        final BigdataURI object = valueFactory.createURI(RDFVocabulary.tagNs, tagNameB);
         final BigdataStatement stmt = valueFactory.createStatement(subject, predicate, object);
 
         try {
@@ -109,9 +110,9 @@ public class BlazegraphTripleModel implements TripleDatabaseModel {
     public boolean isRelated(String tagNameA, String tagNameB) {
         try {
             return repositoryConnection.hasStatement(
-                valueFactory.createURI("http://www.test.org/tag/", tagNameA),
-                valueFactory.createURI("http://www.test.org/relatedTo"),
-                valueFactory.createURI("http://www.test.org/tag/", tagNameB),
+                valueFactory.createURI(RDFVocabulary.tagNs, tagNameA),
+                valueFactory.createURI(RDFVocabulary.relatedToNs),
+                valueFactory.createURI(RDFVocabulary.tagNs, tagNameB),
                 true
             );
         } catch (RepositoryException e) {
@@ -134,7 +135,7 @@ public class BlazegraphTripleModel implements TripleDatabaseModel {
     public boolean readAllProperties(String tagNameA) {
         try {
             RepositoryResult<Statement> results = repositoryConnection.getStatements(
-                    valueFactory.createURI("http://www.test.org/tag/", tagNameA),
+                    valueFactory.createURI(RDFVocabulary.tagNs, tagNameA),
                     null,
                     null,
                     true
@@ -151,6 +152,50 @@ public class BlazegraphTripleModel implements TripleDatabaseModel {
 
     @Override
     public boolean closeAfterReadingAllProperties() {
+        return closeRegular();
+    }
+
+    @Override
+    public boolean openForRenewing() {
+        return openRegular();
+    }
+
+    @Override
+    public boolean deleting(String tagNameA, String tagNameB) {
+        // prepare a statement
+        final BigdataURI subject = valueFactory.createURI(RDFVocabulary.tagNs, tagNameA);
+        final BigdataURI predicate = valueFactory.createURI(RDFVocabulary.relatedToNs);
+        final BigdataURI object = valueFactory.createURI(RDFVocabulary.tagNs, tagNameB);
+        final BigdataStatement stmt = valueFactory.createStatement(subject, predicate, object);
+
+        try {
+            repositoryConnection.remove(stmt);
+        } catch (RepositoryException e) {
+            logger.fatal("Fail!", e);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean inserting(String tagNameA, String tagNameB) {
+        // prepare a statement
+        final BigdataURI subject = valueFactory.createURI(RDFVocabulary.tagNs, tagNameA);
+        final BigdataURI predicate = valueFactory.createURI(RDFVocabulary.relatedToNs);
+        final BigdataURI object = valueFactory.createURI(RDFVocabulary.tagNs, tagNameB);
+        final BigdataStatement stmt = valueFactory.createStatement(subject, predicate, object);
+
+        try {
+            repositoryConnection.add(stmt);
+        } catch (RepositoryException e) {
+            logger.fatal("Fail!", e);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean closeAfterRenewing() {
         return closeRegular();
     }
 

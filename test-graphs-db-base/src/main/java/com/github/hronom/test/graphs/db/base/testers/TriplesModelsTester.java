@@ -1,4 +1,7 @@
-package com.github.hronom.test.graphs.db.base;
+package com.github.hronom.test.graphs.db.base.testers;
+
+import com.github.hronom.test.graphs.db.base.utils.TriplesModelsUtils;
+import com.github.hronom.test.graphs.db.base.models.TripleDatabaseModel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,6 +40,15 @@ public final class TriplesModelsTester {
             long end = System.currentTimeMillis();
             logger.info("Contain time: " + (end - begin) + " ms.");
             tripleDatabaseModel.closeAfterIsRelated();
+        }
+
+        {
+            tripleDatabaseModel.openForReadingAllProperties();
+            long begin = System.currentTimeMillis();
+            TriplesModelsUtils.readAllProperties(tripleDatabaseModel);
+            long end = System.currentTimeMillis();
+            logger.info("Read all properties time: " + (end - begin) + " ms.");
+            tripleDatabaseModel.closeAfterReadingAllProperties();
         }
 
         {
