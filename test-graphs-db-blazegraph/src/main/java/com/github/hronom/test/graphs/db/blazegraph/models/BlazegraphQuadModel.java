@@ -1,4 +1,4 @@
-package com.github.hronom.test.graphs.db.blazegraph;
+package com.github.hronom.test.graphs.db.blazegraph.models;
 
 import com.bigdata.journal.BufferMode;
 import com.bigdata.rdf.model.BigdataStatement;

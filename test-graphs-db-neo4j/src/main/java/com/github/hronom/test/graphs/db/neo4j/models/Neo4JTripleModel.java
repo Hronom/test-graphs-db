@@ -1,4 +1,4 @@
-package com.github.hronom.test.graphs.db.neo4j;
+package com.github.hronom.test.graphs.db.neo4j.models;
 
 import com.github.hronom.test.graphs.db.base.models.TripleDatabaseModel;
 

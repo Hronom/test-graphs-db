@@ -1,11 +1,12 @@
-package com.github.hronom.test.graphs.db.apache.jena;
+package com.github.hronom.test.graphs.db.blazegraph;
 
 import com.github.hronom.test.graphs.db.base.models.QuadDatabaseModel;
 import com.github.hronom.test.graphs.db.base.testers.QuadsModelsTester;
+import com.github.hronom.test.graphs.db.blazegraph.models.BlazegraphQuadModel;
 
-public class TestApacheJenaQuads {
+public class BlazegraphQuadsTestLauncher {
     public static void main(String[] args) {
-        QuadDatabaseModel quadDatabaseModel = new ApacheJenaQuadModel();
+        QuadDatabaseModel quadDatabaseModel = new BlazegraphQuadModel();
         quadDatabaseModel.initialize();
         QuadsModelsTester.test(quadDatabaseModel);
     }

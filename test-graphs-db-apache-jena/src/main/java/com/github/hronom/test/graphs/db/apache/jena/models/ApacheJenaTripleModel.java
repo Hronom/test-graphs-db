@@ -1,4 +1,4 @@
-package com.github.hronom.test.graphs.db.apache.jena;
+package com.github.hronom.test.graphs.db.apache.jena.models;
 
 import com.github.hronom.test.graphs.db.base.models.TripleDatabaseModel;
 import com.github.hronom.test.graphs.db.base.utils.RDFVocabulary;
