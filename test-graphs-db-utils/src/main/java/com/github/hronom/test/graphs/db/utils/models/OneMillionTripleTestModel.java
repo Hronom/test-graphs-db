@@ -15,10 +15,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class OneMillionTripleTestModel implements TripleDatabaseTestModel {
-    private final Path oneMillionNt = Paths.get("one_million.nt");
+    private final Path oneMillionNt;
 
     private BufferedWriter bufferedWriter;
     private WriterStreamRDFFlat writerStreamRDFFlat;
+
+    public OneMillionTripleTestModel(String name) {
+        oneMillionNt = Paths.get(name);
+    }
 
     @Override
     public boolean openForBulkLoading() {

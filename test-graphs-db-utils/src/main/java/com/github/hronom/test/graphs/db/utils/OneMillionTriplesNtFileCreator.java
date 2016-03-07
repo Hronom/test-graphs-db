@@ -8,7 +8,7 @@ import com.github.hronom.test.graphs.db.utils.models.OneMillionTripleTestModel;
  */
 public class OneMillionTriplesNtFileCreator {
     public static void main(String[] args) {
-        OneMillionTripleTestModel oneMillionTripleModel = new OneMillionTripleTestModel();
+        OneMillionTripleTestModel oneMillionTripleModel = new OneMillionTripleTestModel("one_million.nt");
         oneMillionTripleModel.openForSingleInserting();
         TriplesModelsUtils.insertTags(oneMillionTripleModel);
         oneMillionTripleModel.closeAfterSingleInserting();

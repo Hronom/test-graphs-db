@@ -40,29 +40,49 @@ public class Neo4JTripleTestModel implements TripleDatabaseTestModel {
 
     @Override
     public boolean openForBulkLoading() {
-        return true;
-    }
-
-    @Override
-    public boolean bulkInsert(Path sourcePath) {
-        return true;
-    }
-
-    @Override
-    public boolean closeAfterBulkLoading() {
-        return true;
-    }
-
-    @Override
-    public boolean openForSingleInserting() {
         inserter = BatchInserters.inserter(path.toString());
         inserter.createDeferredSchemaIndex(tagLabel).on(tagNameProperty).create();
         return true;
     }
 
     @Override
+    public boolean bulkInsert(Path sourcePath) {
+        /*Long tagNameANode = inMemoryCache.get(tagNameA);
+        if(tagNameANode == null) {
+            Map<String, Object> propertiesA = new HashMap<>();
+            propertiesA.put(tagNameProperty, tagNameA);
+            tagNameANode = inserter.createNode(propertiesA, tagLabel);
+            inMemoryCache.put(tagNameA, tagNameANode);
+        }
+
+        Long tagNameBNode = inMemoryCache.get(tagNameB);
+        if(tagNameBNode == null) {
+            Map<String, Object> propertiesB = new HashMap<>();
+            propertiesB.put(tagNameProperty, tagNameB);
+            tagNameBNode = inserter.createNode(propertiesB, tagLabel);
+            inMemoryCache.put(tagNameB, tagNameBNode);
+        }
+
+        inserter.createRelationship(tagNameANode, tagNameBNode, RelationshipTypes.relation, null);*/
+
+        return true;
+    }
+
+    @Override
+    public boolean closeAfterBulkLoading() {
+        inserter.shutdown();
+        return true;
+    }
+
+    @Override
+    public boolean openForSingleInserting() {
+        openRegular();
+        return true;
+    }
+
+    @Override
     public boolean singleInsert(String tagNameA, String tagNameB) {
-        /*try (Transaction tx = neo4jDatabase.beginTx()) {
+        try (Transaction tx = neo4jDatabase.beginTx()) {
             Node tagNameANode = neo4jDatabase.findNode(tagLabel, tagNameProperty, tagNameA);
             if (tagNameANode == null) {
                 tagNameANode = neo4jDatabase.createNode(tagLabel);
@@ -86,32 +106,13 @@ public class Neo4JTripleTestModel implements TripleDatabaseTestModel {
                 tagNameANode.createRelationshipTo(tagNameBNode, RelationshipTypes.relation);
             }
             tx.success();
-        }*/
-
-        Long tagNameANode = inMemoryCache.get(tagNameA);
-        if(tagNameANode == null) {
-            Map<String, Object> propertiesA = new HashMap<>();
-            propertiesA.put(tagNameProperty, tagNameA);
-            tagNameANode = inserter.createNode(propertiesA, tagLabel);
-            inMemoryCache.put(tagNameA, tagNameANode);
         }
-
-        Long tagNameBNode = inMemoryCache.get(tagNameB);
-        if(tagNameBNode == null) {
-            Map<String, Object> propertiesB = new HashMap<>();
-            propertiesB.put(tagNameProperty, tagNameB);
-            tagNameBNode = inserter.createNode(propertiesB, tagLabel);
-            inMemoryCache.put(tagNameB, tagNameBNode);
-        }
-
-        inserter.createRelationship(tagNameANode, tagNameBNode, RelationshipTypes.relation, null);
-
         return true;
     }
 
     @Override
     public boolean closeAfterSingleInserting() {
-        inserter.shutdown();
+        neo4jDatabase.shutdown();
         return true;
     }
 
