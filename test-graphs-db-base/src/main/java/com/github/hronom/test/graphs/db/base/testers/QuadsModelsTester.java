@@ -6,6 +6,8 @@ import com.github.hronom.test.graphs.db.base.models.QuadDatabaseTestModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.nio.file.Paths;
+
 public final class QuadsModelsTester {
     private static final Logger logger = LogManager.getLogger();
 
@@ -13,6 +15,26 @@ public final class QuadsModelsTester {
     }
 
     public static void test(QuadDatabaseTestModel quadDatabaseTestModel) {
+        {
+            logger.info("Start bulk insertion...");
+            long begin = System.currentTimeMillis();
+            quadDatabaseTestModel.openForBulkLoading();
+            quadDatabaseTestModel.bulkInsert("graphA", Paths.get("one_million.nt"));
+            quadDatabaseTestModel.closeAfterBulkLoading();
+            long end = System.currentTimeMillis();
+            logger.info("Bulk insertion time: " + (end - begin) + " ms.");
+        }
+
+        {
+            logger.info("Start bulk insertion...");
+            long begin = System.currentTimeMillis();
+            quadDatabaseTestModel.openForBulkLoading();
+            quadDatabaseTestModel.bulkInsert("graphB", Paths.get("one_million.nt"));
+            quadDatabaseTestModel.closeAfterBulkLoading();
+            long end = System.currentTimeMillis();
+            logger.info("Bulk insertion time: " + (end - begin) + " ms.");
+        }
+
         {
             long begin = System.currentTimeMillis();
             QuadsModelsUtils.fill(quadDatabaseTestModel);

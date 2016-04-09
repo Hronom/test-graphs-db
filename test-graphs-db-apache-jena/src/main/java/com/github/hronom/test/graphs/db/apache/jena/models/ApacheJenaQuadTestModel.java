@@ -10,16 +10,56 @@ import org.apache.jena.graph.Triple;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.Quad;
 import org.apache.jena.tdb.TDBFactory;
+import org.apache.jena.tdb.TDBLoader;
+import org.apache.jena.tdb.base.file.Location;
+import org.apache.jena.tdb.setup.StoreParams;
+import org.apache.jena.tdb.store.DatasetGraphTDB;
+import org.apache.jena.tdb.store.bulkloader.BulkLoader;
+import org.apache.jena.tdb.sys.TDBMaker;
 import org.apache.jena.util.iterator.ExtendedIterator;
 
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.util.Collections;
 import java.util.Iterator;
+
+import static org.apache.jena.sparql.vocabulary.DOAP.location;
 
 public class ApacheJenaQuadTestModel implements QuadDatabaseTestModel {
     private DatasetGraph datasetGraph;
 
+    private Location location;
+    private DatasetGraphTDB datasetGraphTDB;
+
     @Override
     public boolean initialize() {
         datasetGraph = TDBFactory.createDatasetGraph("Apache Jena Quads");
+        return true;
+    }
+
+    @Override
+    public boolean openForBulkLoading() {
+        location = Location.create("Apache Jena Quads Bulk loaded");
+        datasetGraphTDB = TDBMaker.createDatasetGraphTDB(location, StoreParams.getDftStoreParams());
+        return true;
+    }
+
+    @Override
+    public boolean bulkInsert(String graph, Path sourcePath) {
+        BulkLoader.loadNamedGraph(
+            datasetGraphTDB,
+            NodeFactory.createURI("http://www.test.org/graph/" + graph),
+            Collections.singletonList(sourcePath.toUri().toString()),
+            true,
+            true
+        );
+        return true;
+    }
+
+    @Override
+    public boolean closeAfterBulkLoading() {
+        datasetGraphTDB.close();
+        TDBMaker.releaseLocation(location);
         return true;
     }
 
