@@ -8,9 +8,9 @@ import org.apache.logging.log4j.Logger;
 import java.nio.file.Paths;
 
 /**
- * Try to insert one million of triples into one database but with two different graphs.
+ * Try to insert ten millions of triples into one database but with two different graphs.
  */
-public class BlazegraphBulkInsertionTwoDifferentGraphsTest {
+public class BlazegraphBulkLoadOneDataSetTwoDifferentGraphsTest {
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) throws Exception {
@@ -19,14 +19,14 @@ public class BlazegraphBulkInsertionTwoDifferentGraphsTest {
         {
             logger.info("Start GraphA Blazegraph bulk insertion...");
             long begin = System.currentTimeMillis();
-            blazegraphQuadModel.bulkUpload("GraphA", Paths.get("ten_millions.nt"));
+            blazegraphQuadModel.bulkUpload("GraphA", Paths.get("ten_millions_tags.nt"));
             long end = System.currentTimeMillis();
             logger.info("GraphA Blazegraph bulk insertion time: " + (end - begin) + " ms.");
         }
         {
             logger.info("Start GraphB Blazegraph bulk insertion...");
             long begin = System.currentTimeMillis();
-            blazegraphQuadModel.bulkUpload("GraphB", Paths.get("ten_millions.nt"));
+            blazegraphQuadModel.bulkUpload("GraphB", Paths.get("ten_millions_tags.nt"));
             long end = System.currentTimeMillis();
             logger.info("GraphB Blazegraph bulk insertion time: " + (end - begin) + " ms.");
         }
