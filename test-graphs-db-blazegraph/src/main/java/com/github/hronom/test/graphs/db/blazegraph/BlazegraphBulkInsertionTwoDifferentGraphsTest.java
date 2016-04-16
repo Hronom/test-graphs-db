@@ -19,14 +19,14 @@ public class BlazegraphBulkInsertionTwoDifferentGraphsTest {
         {
             logger.info("Start GraphA Blazegraph bulk insertion...");
             long begin = System.currentTimeMillis();
-            blazegraphQuadModel.bulkUpload("GraphA", Paths.get("one_hundred_millions.nt"));
+            blazegraphQuadModel.bulkUpload("GraphA", Paths.get("ten_millions.nt"));
             long end = System.currentTimeMillis();
             logger.info("GraphA Blazegraph bulk insertion time: " + (end - begin) + " ms.");
         }
         {
             logger.info("Start GraphB Blazegraph bulk insertion...");
             long begin = System.currentTimeMillis();
-            blazegraphQuadModel.bulkUpload("GraphB", Paths.get("one_hundred_millions.nt"));
+            blazegraphQuadModel.bulkUpload("GraphB", Paths.get("ten_millions.nt"));
             long end = System.currentTimeMillis();
             logger.info("GraphB Blazegraph bulk insertion time: " + (end - begin) + " ms.");
         }

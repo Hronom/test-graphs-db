@@ -5,13 +5,13 @@ import com.github.hronom.test.graphs.db.utils.models.FileTripleModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class OneHundredMillionsTriplesNtFileCreator {
+public class TenMillionsTriplesNtFileCreator {
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
-        long count = 100_000_000L;
+        long count = 10_000_000L;
 
-        FileTripleModel fileTripleModel = new FileTripleModel("one_hundred_millions.nt");
+        FileTripleModel fileTripleModel = new FileTripleModel("ten_millions.nt");
         fileTripleModel.openForSingleInserting();
 
         long beginTime = System.currentTimeMillis();

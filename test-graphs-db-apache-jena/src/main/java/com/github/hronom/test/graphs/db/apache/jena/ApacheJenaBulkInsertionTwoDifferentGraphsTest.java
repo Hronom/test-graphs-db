@@ -19,14 +19,14 @@ public class ApacheJenaBulkInsertionTwoDifferentGraphsTest {
         {
             logger.info("Start GraphA Apache Jena bulk insertion...");
             long begin = System.currentTimeMillis();
-            quadDatabaseTestModel.bulkUpload("GraphA", Paths.get("one_hundred_millions.nt"));
+            quadDatabaseTestModel.bulkUpload("GraphA", Paths.get("ten_millions.nt"));
             long end = System.currentTimeMillis();
             logger.info("GraphA Blazegraph bulk insertion time: " + (end - begin) + " ms.");
         }
         {
             logger.info("Start GraphB Apache Jena bulk insertion...");
             long begin = System.currentTimeMillis();
-            quadDatabaseTestModel.bulkUpload("GraphB", Paths.get("one_hundred_millions.nt"));
+            quadDatabaseTestModel.bulkUpload("GraphB", Paths.get("ten_millions.nt"));
             long end = System.currentTimeMillis();
             logger.info("GraphB Blazegraph bulk insertion time: " + (end - begin) + " ms.");
         }
