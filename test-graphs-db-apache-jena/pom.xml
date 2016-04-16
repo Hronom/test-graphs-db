@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.hronom</groupId>
-            <artifactId>test-graphs-db-base</artifactId>
+            <artifactId>test-graphs-db-common</artifactId>
             <version>1.0.0</version>
         </dependency>
         <!-- Apache Jena -->

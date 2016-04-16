@@ -7,8 +7,7 @@
     <artifactId>test-graphs-db</artifactId>
     <version>1.0.0</version>
     <modules>
-        <module>test-graphs-db-neo4j</module>
-        <module>test-graphs-db-base</module>
+        <module>test-graphs-db-common</module>
         <module>test-graphs-db-blazegraph</module>
         <module>test-graphs-db-apache-jena</module>
         <module>test-graphs-db-utils</module>
@@ -32,17 +31,17 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.0.0</version>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${project.basedir}/bin</directory>
-                            <includes>
-                                <include>**/**</include>
-                            </includes>
-                            <followSymlinks>false</followSymlinks>
-                        </fileset>
-                    </filesets>
-                </configuration>
+                <!--<configuration>-->
+                    <!--<filesets>-->
+                        <!--<fileset>-->
+                            <!--<directory>${project.basedir}/bin</directory>-->
+                            <!--<includes>-->
+                                <!--<include>**/**</include>-->
+                            <!--</includes>-->
+                            <!--<followSymlinks>false</followSymlinks>-->
+                        <!--</fileset>-->
+                    <!--</filesets>-->
+                <!--</configuration>-->
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
