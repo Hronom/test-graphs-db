@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import java.nio.file.Paths;
 
 /**
- * Try to insert ten millions of triples into one database but with two different graphs.
+ * Try to insert ten millions of triples from one dataset into one database but with two different graphs.
  */
 public class BlazegraphBulkLoadOneDataSetTwoDifferentGraphsTest {
     private static final Logger logger = LogManager.getLogger();

@@ -8,9 +8,9 @@ import org.apache.logging.log4j.Logger;
 import java.nio.file.Paths;
 
 /**
- * Try to insert ten millions of triples from two different dataset into one database but with two different graphs.
+ * Try to insert ten millions of triples from two different dataset into one database with one graph.
  */
-public class ApacheJenaBulkLoadTwoDataSetsTwoDifferentGraphsTest {
+public class ApacheJenaBulkLoadTwoDataSetsOneGraphTest {
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) throws Exception {
@@ -24,11 +24,11 @@ public class ApacheJenaBulkLoadTwoDataSetsTwoDifferentGraphsTest {
             logger.info("GraphA Apache Jena bulk insertion time: " + (end - begin) + " ms.");
         }
         {
-            logger.info("Start GraphB Apache Jena bulk insertion...");
+            logger.info("Start GraphA Apache Jena bulk insertion...");
             long begin = System.currentTimeMillis();
-            quadDatabaseTestModel.bulkUpload("GraphB", Paths.get("ten_millions_marks.nt"));
+            quadDatabaseTestModel.bulkUpload("GraphA", Paths.get("ten_millions_marks.nt"));
             long end = System.currentTimeMillis();
-            logger.info("GraphB Apache Jena bulk insertion time: " + (end - begin) + " ms.");
+            logger.info("GraphA GraphA Jena bulk insertion time: " + (end - begin) + " ms.");
         }
         quadDatabaseTestModel.close();
     }
